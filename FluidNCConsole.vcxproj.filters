@@ -37,10 +37,6 @@
     <Filter Include="src\Kinematics">
       <UniqueIdentifier>{ddda5f9e-d343-4e28-b20a-b2a07484f22c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Console">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="X86TestSupport\TestSupport\Arduino.cpp">
@@ -429,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="X86TestSupport\TestSupport\FluidConsoleMain.cpp">
       <Filter>X86TestSupport</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidNC\src\Kinematics\CartesianWithRotary.cpp">
+      <Filter>src\Kinematics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -954,6 +953,9 @@
     <ClInclude Include="X86TestSupport\TestSupport\SPIFFS.h">
       <Filter>X86TestSupport</Filter>
     </ClInclude>
+    <ClInclude Include="FluidNC\src\Kinematics\CartesianWithRotary.h">
+      <Filter>src\Kinematics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="X86TestSupport\TestSupport\TODO.txt">
@@ -985,7 +987,6 @@
     <None Include="FluidNC\src\Motors\Dynamixel2.md">
       <Filter>src\Motors</Filter>
     </None>
-    <None Include="config.yaml" />
-    <None Include="box.ngc" />
+    <None Include="FluidNC\data\config.yaml" />
   </ItemGroup>
 </Project>
