@@ -2,6 +2,8 @@
 #include <iostream>
 #include <conio.h>
 #include "StdTimer.h"
+#include "src/Serial.h"  // execute_realtime_command
+
 
 #define MAX_DEVPATH_LENGTH 1024
 extern StdTimer g_timer;
@@ -85,4 +87,81 @@ size_t ComPortX86::write(uint8_t c) {
         std::cout << c;
     }
     return dwBytesWritten;
+}
+
+Channel* ComPortX86::pullLineFromUart(char* line) 
+{ 
+ while (1) {
+    int ch;
+    if (line && _queue.size()) {
+        ch = _queue.front();
+        _queue.pop();
+    } else {
+        ch = read();
+    }
+
+    // ch will only be negative if read() was called and returned -1
+    // The _queue path will return only nonnegative character values
+    if (ch < 0) {
+        break;
+    }
+    if ( is_realtime_command(ch)) {
+        std::cout <<  ch << "; ";
+        execute_realtime_command(static_cast<Cmd>(ch), *this);
+        continue;
+    }
+    if (line) {
+        if (ch == '\r' || ch == '\n') {
+            _line[_linelen] = '\0';
+            if (_linelen == 0)
+                continue;
+            strcpy(line, _line);
+            _linelen = 0;
+            std::cout << line << "\n";
+            return this;
+        }
+        if (_linelen < (Channel::maxLine - 1)) {
+            _line[_linelen++] = ch;
+        }
+        else 
+        {
+            std::cout << "Buffer overflow\n";
+        }
+    } else {
+        // If we are not able to handle a line we save the character
+        // until later
+        _queue.push(uint8_t(ch));
+    }
+}
+return nullptr;
+}
+
+Channel* ComPortX86::pollLine(char* line) 
+{
+    if (hSerial != INVALID_HANDLE_VALUE)
+        return pullLineFromUart(line);
+    return Channel::pollLine(line);
+}
+
+
+void ComPortX86::ack(Error status) {
+    
+    Channel::ack(status);
+    
+    if (hSerial == INVALID_HANDLE_VALUE)
+        return;
+
+    switch (status) {
+        case Error::Ok:  // Error::Ok
+            std::cout << "ok\n";
+            break;
+        default:
+            // With verbose errors, the message text is displayed instead of the number.
+            // Grbl 0.9 used to display the text, while Grbl 1.1 switched to the number.
+            // Many senders support both formats.
+            std::cout << "error:";
+            std::cout << errorString(status);
+            std::cout << "\n";
+            break;
+    }
 }

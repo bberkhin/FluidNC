@@ -37,9 +37,10 @@ int main(int argc, char* argv[]) {
         config->_verboseErrors = true;
 
     // Unlock GRBL for easy debugging
-    do_command_or_setting("X", nullptr, WebUI::AuthenticationLevel::LEVEL_ADMIN, pout != nullptr ? *pout : *pin);
-
-    loop();
+   // do_command_or_setting("X", nullptr, WebUI::AuthenticationLevel::LEVEL_ADMIN, pout != nullptr ? *pout : *pin);
+    while (1) {
+        loop();
+    }
 
     return 0;
 }
