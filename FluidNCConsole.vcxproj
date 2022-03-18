@@ -256,6 +256,7 @@
     <ClCompile Include="FluidNC\src\Spindles\YL620Spindle.cpp" />
     <ClCompile Include="FluidNC\src\StackTrace\AssertionFailed.cpp" />
     <ClCompile Include="FluidNC\src\StackTrace\debug_helpers.cpp" />
+    <ClCompile Include="FluidNC\src\StartupLog.cpp" />
     <ClCompile Include="FluidNC\src\Stepper.cpp" />
     <ClCompile Include="FluidNC\src\Stepping.cpp" />
     <ClCompile Include="FluidNC\src\System.cpp" />

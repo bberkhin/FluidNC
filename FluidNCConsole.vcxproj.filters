@@ -429,6 +429,9 @@
     <ClCompile Include="FluidNC\src\Kinematics\CartesianWithRotary.cpp">
       <Filter>src\Kinematics</Filter>
     </ClCompile>
+    <ClCompile Include="FluidNC\src\StartupLog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="X86TestSupport\TestSupport\Arduino.h">
