@@ -417,7 +417,7 @@ void mc_reset() {
         // NOTE: If steppers are kept enabled via the step idle delay setting, this also keeps
         // the steppers enabled by avoiding the go_idle call altogether, unless the motion state is
         // violated, by which, all bets are off.
-        if ((sys.state == State::Cycle || sys.state == State::Homing || sys.state == State::Jog) ||
+        if ((sys.state == State::Cycle || sys.state == State::Homing || sys.state == State::Jog || sys.state == State::JogSpeed) ||
             (sys.step_control.executeHold || sys.step_control.executeSysMotion)) {
             if (sys.state == State::Homing) {
                 if (rtAlarm == ExecAlarm::None) {

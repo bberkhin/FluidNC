@@ -70,10 +70,10 @@ int ComPortX86::read() {
     } else {
         if (_kbhit()) {
             ret    = _getch();
-            char c = static_cast<char>(ret);
-            std::cout << c;
-            if (c == 10 || c == 13)
-                std::cout << "\n";
+           // char c = static_cast<char>(ret);
+            //std::cout << c;
+            //if (c == 10 || c == 13)
+              //  std::cout << "\n";
         }
     }
     return ret;
@@ -84,7 +84,7 @@ size_t ComPortX86::write(uint8_t c) {
     if (hSerial != INVALID_HANDLE_VALUE) {
         WriteFile(hSerial, &c, 1, &dwBytesWritten, NULL);
     } else {
-        std::cout << c;
+        ;// std::cout << c;
     }
     return dwBytesWritten;
 }
@@ -106,7 +106,7 @@ Channel* ComPortX86::pullLineFromUart(char* line)
         break;
     }
     if ( is_realtime_command(ch)) {
-        std::cout <<  ch << "; ";
+        //std::cout <<  ch << "; ";
         execute_realtime_command(static_cast<Cmd>(ch), *this);
         continue;
     }
@@ -117,7 +117,7 @@ Channel* ComPortX86::pullLineFromUart(char* line)
                 continue;
             strcpy(line, _line);
             _linelen = 0;
-            std::cout << line << "\n";
+           // std::cout << line << "\n";
             return this;
         }
         if (_linelen < (Channel::maxLine - 1)) {
@@ -153,7 +153,7 @@ void ComPortX86::ack(Error status) {
 
     switch (status) {
         case Error::Ok:  // Error::Ok
-            std::cout << "ok\n";
+            ;//std::cout << "ok\n";
             break;
         default:
             // With verbose errors, the message text is displayed instead of the number.

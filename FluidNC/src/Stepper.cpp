@@ -17,6 +17,8 @@
 #include "Protocol.h"
 #include <esp_attr.h>  // IRAM_ATTR
 #include <cmath>
+//#include "RCIBus.h"
+
 
 using namespace Stepper;
 
@@ -815,6 +817,7 @@ float Stepper::get_realtime_rate() {
         case State::Homing:
         case State::Hold:
         case State::Jog:
+        case State::JogSpeed:
         case State::SafetyDoor:
             return prep.current_speed;
         default:

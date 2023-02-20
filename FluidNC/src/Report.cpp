@@ -33,6 +33,7 @@
 #include "WebUI/BTConfig.h"              // bt_config
 #include "WebUI/WebSettings.h"
 #include "InputFile.h"
+#include "Encoders.h"
 
 #include <map>
 #include <freertos/task.h>
@@ -382,7 +383,7 @@ void report_gcode_modes(Print& channel) {
 
 // Prints build info line
 void report_build_info(const char* line, Print& channel) {
-    channel << "[VER:" << grbl_version << " FluidNC " << git_info << ":" << line << "]\n";
+    channel << "[VER:" << grbl_version << " BB2 FluidNC " << git_info << ":" << line << "]\n";
     channel << "[OPT:";
     if (config->_coolant->hasMist()) {
         channel << "M";  // TODO Need to deal with M8...it could be disabled
@@ -476,6 +477,8 @@ const char* state_name() {
             }  // Continues to print jog state during jog cancel.
         case State::Jog:
             return "Jog";
+        case State::JogSpeed:
+            return "JogSpeed";
         case State::Homing:
             return "Home";
         case State::ConfigAlarm:
@@ -566,6 +569,11 @@ void report_realtime_status(Channel& channel) {
             }
         }
     }
+    if (config->_encoders && config->_encoders->need_report_status()) {
+        print_position = config->_encoders->get_pos();
+        channel << "|En:";
+        report_util_axis_values(print_position, channel);
+    }
 
     // Report realtime feed speed
     float rate = Stepper::get_realtime_rate();
@@ -584,6 +592,7 @@ void report_realtime_status(Channel& channel) {
             case State::Cycle:
             case State::Hold:
             case State::Jog:
+            case State::JogSpeed:
             case State::SafetyDoor:
                 report_wco_counter = (REPORT_WCO_REFRESH_BUSY_COUNT - 1);  // Reset counter for slow refresh
             default:
@@ -605,6 +614,7 @@ void report_realtime_status(Channel& channel) {
             case State::Cycle:
             case State::Hold:
             case State::Jog:
+            case State::JogSpeed:
             case State::SafetyDoor:
                 report_ovr_counter = (REPORT_OVR_REFRESH_BUSY_COUNT - 1);  // Reset counter for slow refresh
             default:
@@ -640,9 +650,11 @@ void report_realtime_status(Channel& channel) {
             }
         }
     }
+
     if (infile) {
         channel << "|SD:" << setprecision(2) << infile->percent_complete() << "," << infile->path();
     }
+
 #ifdef DEBUG_STEPPER_ISR
     channel << "|ISRs:" << config->_stepping->isr_count;
 #endif

@@ -1,0 +1,44 @@
+14 -> 13
+13->14
+27-> 26
+26 - 27
+
+свободные
+
+36 39 34 35  - input only no resistors
+32 25 21 - good free 
+33 15
+17 16
+
+[36 39 34 32 25 21 33 15] i/o 1
+[39 34 35 21 33 15 17 16] i/o 2
+[32 25 21 33 15 17 16 5]  i/o 3
+
+ibus:
+  txd_pin: gpio.17     
+  rxd_pin: gpio.16
+5v
+gnd
+
+spi
+  miso_pin: gpio.19
+  mosi_pin: gpio.23
+  sck_pin: gpio.18
+display
+  rst_pin: gpio:22
+  cs_pin: gpio:2
+  dc_pin: gpio:4
+SD:
+  cd_cs_pin: gpio:5
+
+
+shared_stepper_disable_pin: gpio.13
+x
+direction_pin: gpio.14:low
+step_pin: gpio.12
+y
+direction_pin: gpio.26
+step_pin: gpio.27
+z
+direction_pin: gpio.33
+step_pin: gpio.15

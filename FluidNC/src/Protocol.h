@@ -39,6 +39,7 @@ void protocol_disable_steppers();
 void protocol_cancel_disable_steppers();
 
 extern volatile bool rtStatusReport;
+extern volatile bool rtUpdateDisplay;
 extern volatile bool rtCycleStart;
 extern volatile bool rtFeedHold;
 extern volatile bool rtReset;

@@ -48,6 +48,11 @@ namespace Machine {
         handler.section("macros", _macros);
         handler.section("start", _start);
 
+        handler.section("encoders", _encoders);
+        handler.section("rc_ibus", _ibus_rs);
+        handler.section("display", _display);
+        
+
         handler.section("user_outputs", _userOutputs);
         // TODO: Consider putting these under a gcode: hierarchy level? Or motion control?
         handler.item("arc_tolerance_mm", _arcTolerance, 0.001, 1.0);
@@ -160,10 +165,15 @@ namespace Machine {
             char* buffer     = new char[filesize + 1];
             buffer[filesize] = '\0';
             auto actual      = file.readBytes(buffer, filesize);
+#ifdef FLUIDNC_CONSOLE
+            filesize = actual;
+            buffer[filesize] = '\0';
+#else
             if (actual != filesize) {
                 log_info("Configuration file:" << filename << " read error");
                 return false;
             }
+#endif
             log_info("Configuration file:" << filename);
             bool retval = load(new StringRange(buffer, buffer + filesize));
             delete[] buffer;
@@ -249,5 +259,8 @@ namespace Machine {
         delete _spi;
         delete _control;
         delete _macros;
+        delete _encoders;
+        delete _ibus_rs;
+        delete _display;
     }
 }

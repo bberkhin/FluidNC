@@ -100,7 +100,7 @@ void execute_realtime_command(Cmd command, Channel& channel) {
             rtSafetyDoor = true;
             break;
         case Cmd::JogCancel:
-            if (sys.state == State::Jog) {  // Block all other states from invoking motion cancel.
+            if (sys.state == State::Jog || sys.state == State::JogSpeed) {  // Block all other states from invoking motion cancel.
                 rtMotionCancel = true;
             }
             break;

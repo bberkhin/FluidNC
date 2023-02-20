@@ -184,11 +184,14 @@
     <ClCompile Include="FluidNC\src\Custom\oled_basic.cpp" />
     <ClCompile Include="FluidNC\src\Custom\oled_io.cpp" />
     <ClCompile Include="FluidNC\src\Custom\oled_tiny.cpp" />
+    <ClCompile Include="FluidNC\src\Encoder.cpp" />
+    <ClCompile Include="FluidNC\src\Encoders.cpp" />
     <ClCompile Include="FluidNC\src\Error.cpp" />
     <ClCompile Include="FluidNC\src\FileStream.cpp" />
     <ClCompile Include="FluidNC\src\GCode.cpp" />
     <ClCompile Include="FluidNC\src\InputFile.cpp" />
     <ClCompile Include="FluidNC\src\Jog.cpp" />
+    <ClCompile Include="FluidNC\src\JogSpeed.cpp" />
     <ClCompile Include="FluidNC\src\Kinematics\Cartesian.cpp" />
     <ClCompile Include="FluidNC\src\Kinematics\CoreXY.cpp" />
     <ClCompile Include="FluidNC\src\Kinematics\CartesianWithRotary.cpp" />
@@ -235,6 +238,8 @@
     <ClCompile Include="FluidNC\src\Probe.cpp" />
     <ClCompile Include="FluidNC\src\ProcessSettings.cpp" />
     <ClCompile Include="FluidNC\src\Protocol.cpp" />
+    <ClCompile Include="FluidNC\src\RCChannel.cpp" />
+    <ClCompile Include="FluidNC\src\RCIBus.cpp" />
     <ClCompile Include="FluidNC\src\Regex.cpp" />
     <ClCompile Include="FluidNC\src\Report.cpp" />
     <ClCompile Include="FluidNC\src\SDCard.cpp" />
@@ -325,6 +330,8 @@
     <ClInclude Include="FluidNC\src\CoolantControl.h" />
     <ClInclude Include="FluidNC\src\CPUMap.h" />
     <ClInclude Include="FluidNC\src\Custom\oled_io.h" />
+    <ClInclude Include="FluidNC\src\Encoder.h" />
+    <ClInclude Include="FluidNC\src\Encoders.h" />
     <ClInclude Include="FluidNC\src\EnumItem.h" />
     <ClInclude Include="FluidNC\src\Error.h" />
     <ClInclude Include="FluidNC\src\FileStream.h" />
@@ -332,6 +339,7 @@
     <ClInclude Include="FluidNC\src\I2SOut.h" />
     <ClInclude Include="FluidNC\src\InputFile.h" />
     <ClInclude Include="FluidNC\src\Jog.h" />
+    <ClInclude Include="FluidNC\src\JogSpeed.h" />
     <ClInclude Include="FluidNC\src\Kinematics\Cartesian.h" />
     <ClInclude Include="FluidNC\src\Kinematics\CoreXY.h" />
     <ClInclude Include="FluidNC\src\Kinematics\CartesianWithRotary.h" />
@@ -385,6 +393,8 @@
     <ClInclude Include="FluidNC\src\Platform.h" />
     <ClInclude Include="FluidNC\src\Probe.h" />
     <ClInclude Include="FluidNC\src\Protocol.h" />
+    <ClInclude Include="FluidNC\src\RCChannel.h" />
+    <ClInclude Include="FluidNC\src\RCIBus.h" />
     <ClInclude Include="FluidNC\src\Regex.h" />
     <ClInclude Include="FluidNC\src\Report.h" />
     <ClInclude Include="FluidNC\src\SDCard.h" />

@@ -22,6 +22,7 @@
 #include "FileStream.h"           // FileStream()
 #include "xmodem.h"               // xmodemReceive(), xmodemTransmit()
 #include "StartupLog.h"           // startupLog
+#include "Encoder.h"
 
 #include <cstring>
 #include <map>
@@ -436,6 +437,7 @@ static Error showState(const char* value, WebUI::AuthenticationLevel auth_level,
     name              = it == StateName.end() ? "<invalid>" : it->second;
 
     out << "State " << static_cast<int>(state) << " (" << name << ")\n";
+
     return Error::Ok;
 }
 
@@ -634,6 +636,29 @@ static Error showStartupLog(const char* value, WebUI::AuthenticationLevel auth_l
     return Error::Ok;
 }
 
+static Error toggle_encoder_mode(const char* value, WebUI::AuthenticationLevel auth_level, Channel& out) {
+    if ( !config->_encoders ) {
+        out << "Trere are no encoders on the mashine\n";
+    } else {
+        bool need_report = !config->_encoders->need_report_status();
+        if ( need_report ) 
+        {
+            config->_encoders->set_report_status(need_report);
+            float* position = get_mpos();
+            //mpos_to_wpos(position);
+            config->_encoders->reset_encoders(position);
+            out << "Start encoders\n";
+            //reset t
+        } else {
+            config->_encoders->set_report_status(need_report);
+            out << "Stop encoders\n";
+        }
+    }
+    return Error::Ok;
+}
+
+
+
 // Commands use the same syntax as Settings, but instead of setting or
 // displaying a persistent value, a command causes some action to occur.
 // That action could be anything, from displaying a run-time parameter
@@ -680,6 +705,8 @@ void make_user_commands() {
     new UserCommand("SS", "Startup/Show", showStartupLog, anyState);
 
     new UserCommand("32", "FakeLaserMode", fakeLaserMode, notIdleOrAlarm);
+
+    new UserCommand("EN", "Encoder start/Stop", toggle_encoder_mode, notIdleOrAlarm);
 };
 
 // normalize_key puts a key string into canonical form -

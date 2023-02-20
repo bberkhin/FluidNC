@@ -8,9 +8,9 @@ public:
     ComPortX86(const char* pPort);
     ComPortX86();
     ~ComPortX86();
-    virtual size_t   write(uint8_t c) override;
+    virtual size_t write(uint8_t c) override;
     virtual int    read() override;
-    virtual void     ack(Error status) override;
+    virtual void   ack(Error status) override;
     virtual int    available() { return true; }
     virtual int    peek() { return 0; }
     virtual void   flush() { return; }

@@ -50,7 +50,7 @@ void make_settings() {
     config_filename = new StringSetting("Name of Configuration File", EXTENDED, WG, NULL, "Config/Filename", "config.yaml", 1, 50, NULL);
 
     // GRBL Numbered Settings
-    status_mask = new IntSetting("What to include in status report", GRBL, WG, "10", "Report/Status", 1, 0, 3, NULL);
+    status_mask = new IntSetting("What to include in status report", GRBL, WG, "10", "Report/Status", 3, 0, 3, NULL);
 
     build_info = new StringSetting("OEM build info for $I command", EXTENDED, WG, NULL, "Firmware/Build", "", 0, 20, NULL);
 }

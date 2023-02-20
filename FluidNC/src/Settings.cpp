@@ -15,7 +15,7 @@ bool anyState() {
     return false;
 }
 bool notIdleOrJog() {
-    return sys.state != State::Idle && sys.state != State::Jog;
+    return sys.state != State::Idle && sys.state != State::Jog && sys.state != State::JogSpeed;
 }
 bool notIdleOrAlarm() {
     return sys.state != State::Idle && sys.state != State::Alarm && sys.state != State::ConfigAlarm;

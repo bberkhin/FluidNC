@@ -16,6 +16,8 @@
 #include "MotionControl.h"  // PARKING_MOTION_LINE_NUMBER
 #include "Settings.h"       // settings_execute_startup
 #include "InputFile.h"      // infile
+#include "JogSpeed.h"      // JogSpeed
+#include "Display/Display.h"
 
 #ifdef DEBUG_STEPPING
 volatile bool rtCrash;
@@ -53,6 +55,7 @@ volatile Percent   rtFOverride;          // Global realtime executor feedrate ov
 volatile Percent   rtROverride;          // Global realtime executor rapid override percentage
 volatile Percent   rtSOverride;          // Global realtime executor spindle override percentage
 
+volatile bool rtUpdateDisplay;
 volatile bool rtStatusReport;
 volatile bool rtCycleStart;
 volatile bool rtFeedHold;
@@ -103,6 +106,7 @@ void protocol_reset() {
     probeState                = ProbeState::Off;
     soft_limit                = false;
     rtStatusReport            = false;
+    rtUpdateDisplay           = false;
     rtCycleStart              = false;
     rtFeedHold                = false;
     rtReset                   = false;
@@ -356,6 +360,7 @@ static void protocol_do_motion_cancel() {
             break;
 
         case State::Jog:
+        case State::JogSpeed:
             protocol_start_holding();
             protocol_cancel_jogging();
             // When jogging, we do not set motionCancel, hence return not break
@@ -395,6 +400,7 @@ static void protocol_do_feedhold() {
             break;
 
         case State::Jog:
+        case State::JogSpeed:
             protocol_start_holding();
             protocol_cancel_jogging();
             return;  // Do not change the state to Hold
@@ -447,6 +453,7 @@ static void protocol_do_safety_door() {
             protocol_start_holding();
             break;
         case State::Jog:
+        case State::JogSpeed:
             protocol_start_holding();
             protocol_cancel_jogging();
             break;
@@ -476,6 +483,7 @@ static void protocol_do_sleep() {
 
         case State::Cycle:
         case State::Jog:
+        case State::JogSpeed:
             protocol_start_holding();
             // Unlike other hold events, sleep does not set jogCancel
             break;
@@ -552,6 +560,7 @@ static void protocol_do_cycle_start() {
         case State::Cycle:
         case State::Homing:
         case State::Jog:
+        case State::JogSpeed:
             break;
     }
 }
@@ -617,6 +626,7 @@ void protocol_do_cycle_stop() {
         case State::Cycle:
         case State::Homing:
         case State::Jog:
+        case State::JogSpeed:
             // Motion complete. Includes CYCLE/JOG/HOMING states and jog cancel/motion cancel/soft limit events.
             // NOTE: Motion and jog cancel both immediately return to idle after the hold completes.
             if (sys.suspend.bit.jogCancel) {  // For jog cancel, flush buffers and sync positions.
@@ -725,6 +735,7 @@ void protocol_do_macro(int macro_num) {
         log_error("Macro button only permitted in idle");
         return;
     }
+    log_info("Run mucro!!!!!!");
 
     config->_macros->run_macro(macro_num);
 }
@@ -773,6 +784,11 @@ void protocol_exec_rt_system() {
     if (rtStatusReport) {
         rtStatusReport = false;
         report_realtime_status(allChannels);
+    }
+
+    if (rtUpdateDisplay) {
+        rtUpdateDisplay = false;
+        Display::showInfo();
     }
 
     if (rtMotionCancel) {
@@ -839,8 +855,12 @@ void protocol_exec_rt_system() {
         case State::Jog:
             Stepper::prep_buffer();
             break;
+        case State::JogSpeed:
+            //jog_speed_next();
+            Stepper::prep_buffer();
+            break;
     }
-}
+    }
 
 // Handles system suspend procedures, such as feed hold, safety door, and parking motion.
 // The system will enter this loop, create local variables for suspend tasks, and return to

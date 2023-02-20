@@ -73,6 +73,8 @@ enum class Motion : uint8_t {
     ProbeAway          = 142,  // G38.4 (Do not alter value)
     ProbeAwayNoError   = 143,  // G38.5 (Do not alter value)
     None               = 80,   // G80 (Do not alter value)
+    JogSpeed           = 70,   // G70 (fixed speed movement) BB
+
 };
 
 // Modal Group G2: Plane select

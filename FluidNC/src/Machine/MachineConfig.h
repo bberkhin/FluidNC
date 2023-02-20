@@ -25,6 +25,11 @@
 #include "UserOutputs.h"
 #include "Macros.h"
 
+#include "../Encoders.h"
+#include "../RCIBus.h"
+#include "../Display/Display.h"
+
+
 namespace Machine {
     using ::Kinematics::Kinematics;
 
@@ -68,6 +73,10 @@ namespace Machine {
         Macros*               _macros      = nullptr;
         Start*                _start       = nullptr;
         Spindles::SpindleList _spindles;
+
+        Encoders*              _encoders    = nullptr;
+        RCIBus*               _ibus_rs     = nullptr;
+        Display*              _display     = nullptr;
 
         float _arcTolerance      = 0.002f;
         float _junctionDeviation = 0.01f;

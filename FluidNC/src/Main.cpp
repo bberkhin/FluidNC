@@ -69,6 +69,16 @@ void setup() {
                     config->_sdCard->init();
                 }
             }
+            if (config->_encoders) {
+                config->_encoders->init();
+            }
+            if (config->_ibus_rs) {
+                config->_ibus_rs->init();
+            }
+            if (config->_display) {
+                config->_display->init();
+            }
+            
 
             config->_stepping->init();  // Configure stepper interrupt timers
 
@@ -175,6 +185,8 @@ void loop() {
         // is re-executed by an enclosing loop.  It can also exit via a
         // throw that is caught and handled below.
         protocol_main_loop();
+        while(true) ;
+
     } catch (const AssertionFailed& ex) {
         // If an assertion fails, we display a message and restart.
         // This could result in repeated restarts if the assertion

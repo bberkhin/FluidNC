@@ -21,6 +21,8 @@
 #include <string.h>  // memset
 #include <math.h>    // sqrt etc.
 
+#include "JogSpeed.h" //BB
+
 // Allow iteration over CoordIndex values
 CoordIndex& operator++(CoordIndex& i) {
     i = static_cast<CoordIndex>(static_cast<size_t>(i) + 1);
@@ -295,6 +297,12 @@ Error gc_execute_line(char* line, Channel& channel) {
                         gc_block.modal.motion = Motion::CcwArc;
                         mg_word_bit           = ModalGroup::MG1;
                         break;
+                    case 70:  // G70 fixed speed movement BB
+                        axis_command          = AxisCommand::MotionMode;
+                        gc_block.modal.motion = Motion::JogSpeed;
+                        mg_word_bit           = ModalGroup::MG1;
+                        break;
+                        
                     case 38:  // G38 - probe
                         //only allow G38 "Probe" commands if a probe pin is defined.
                         if (!config->_probe->exists()) {
@@ -1093,6 +1101,7 @@ Error gc_execute_line(char* line, Channel& channel) {
                 case Motion::None:
                     break;  // Feed rate is unnecessary
                 case Motion::Seek:
+                case Motion::JogSpeed:
                     break;  // Feed rate is unnecessary
                 case Motion::Linear:
                     // [G1 Errors]: Feed rate undefined. Axis letter not configured or without real value.
@@ -1317,6 +1326,11 @@ Error gc_execute_line(char* line, Channel& channel) {
         if (status == Error::Ok && !cancelledInflight) {
             memcpy(gc_state.position, gc_block.values.xyz, sizeof(gc_block.values.xyz));
         }
+        // JogCancelled is not reported as a GCode error
+        return status == Error::JogCancelled ? Error::Ok : status;
+    }
+    if (gc_block.modal.motion == Motion::JogSpeed ) {
+        Error status = jog_speed_execute(&gc_block);
         // JogCancelled is not reported as a GCode error
         return status == Error::JogCancelled ? Error::Ok : status;
     }

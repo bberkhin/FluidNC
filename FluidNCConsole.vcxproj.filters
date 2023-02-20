@@ -432,6 +432,21 @@
     <ClCompile Include="FluidNC\src\StartupLog.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="FluidNC\src\Encoder.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidNC\src\Encoders.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidNC\src\JogSpeed.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidNC\src\RCIBus.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidNC\src\RCChannel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="X86TestSupport\TestSupport\Arduino.h">
@@ -958,6 +973,21 @@
     </ClInclude>
     <ClInclude Include="FluidNC\src\Kinematics\CartesianWithRotary.h">
       <Filter>src\Kinematics</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidNC\src\Encoder.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidNC\src\Encoders.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidNC\src\JogSpeed.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidNC\src\RCChannel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidNC\src\RCIBus.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

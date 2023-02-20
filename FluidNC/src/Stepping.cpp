@@ -3,8 +3,9 @@
 #include "Stepping.h"
 #include "Stepper.h"
 #include "Machine/MachineConfig.h"  // config
-
 #include <atomic>
+
+#include "Logging.h"
 
 namespace Machine {
 
@@ -105,6 +106,8 @@ namespace Machine {
     // Called only from Stepper::pulse_func when a new segment is loaded
     // The argument is in units of ticks of the timer that generates ISRs
     void IRAM_ATTR Stepping::setTimerPeriod(uint16_t timerTicks) {
+      //  log_info( "Set timer tick: " << timerTicks << "\n");
+        
         if (_engine == I2S_STREAM) {
             // 1 tick = fTimers / fStepperTimer
             // Pulse ISR is called for each tick of alarm_val.

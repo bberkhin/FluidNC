@@ -1,0 +1,100 @@
+name: "ESP32 BB V4,3 test"
+board: "ESP32 BB V4 test"
+
+stepping:
+  engine: RMT
+  idle_ms: 250
+  dir_delay_us: 1
+  pulse_us: 2
+  disable_delay_us: 0
+
+axes:
+  shared_stepper_disable_pin: gpio.13
+  
+  x:
+    steps_per_mm: 800
+    max_rate_mm_per_min: 100
+    acceleration_mm_per_sec2: 25
+    max_travel_mm: 1000
+    homing:
+      cycle: 2
+      mpos_mm: 10
+      positive_direction: false
+    
+    motor0:
+      limit_all_pin: NO_PIN
+      stepstick:
+        direction_pin: gpio.14:low
+        step_pin: gpio.12
+    motor1:
+      null_motor:
+
+  y:
+    steps_per_mm: 800
+    max_rate_mm_per_min: 100
+    acceleration_mm_per_sec2: 25
+    homing:
+      cycle: 2
+      mpos_mm: 10
+      positive_direction: false
+
+    motor0:
+      limit_all_pin: NO_PIN
+      stepstick:
+        direction_pin: gpio.26
+        step_pin: gpio.27
+    motor1:
+      null_motor:
+
+  z:
+    steps_per_mm: 800
+    max_rate_mm_per_min: 2000
+    acceleration_mm_per_sec2: 25
+    max_travel_mm: 1000
+    homing:
+      cycle: 1
+      mpos_mm: 10
+      positive_direction: true
+
+    motor0:
+      limit_all_pin: NO_PIN
+      stepstick:
+        direction_pin: gpio.33
+        step_pin: gpio.15
+    motor1:
+      null_motor:
+
+spi:
+  miso_pin: gpio.19
+  mosi_pin: gpio.23
+  sck_pin: gpio.18
+
+display:
+  rst_pin: gpio:22
+  type: OLEDSPISH1106
+
+rc_ibus:
+  uart:
+    txd_pin: gpio.17
+    rxd_pin: gpio.16
+    baud: 115200
+    mode: 8N1
+  channel1:
+    min: 1000
+    max: 2000
+    cmd: right
+  channel2:
+    min: 1000
+    max: 2000
+    cmd: left
+  channel4:
+    min: 1000
+    max: 2000
+    cmd: reset
+    binary: true
+  channel5:
+    min: 1000
+    max: 2000
+    cmd: grblcmd
+    txt: $x
+    binary: true

@@ -25,6 +25,8 @@ enum class State : uint8_t {
     SafetyDoor,   // Safety door is ajar. Feed holds and de-energizes system.
     Sleep,        // Sleep state.
     ConfigAlarm,  // You can't do anything but fix your config file.
+    JogSpeed,     // Jogging mode with constant speed.
+
 };
 
 extern std::map<State, const char*> StateName;
